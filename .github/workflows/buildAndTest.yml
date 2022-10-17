@@ -1,0 +1,30 @@
+name: "Build And Test"
+on: ["push", "pull_request"]
+
+jobs:
+    RunTestsOnMacOS:
+      runs-on: "macos-latest"
+      steps:
+        - uses: "actions/checkout@v3"
+        - name: "Add Dependencies"
+          run: "brew install gcc"
+        - name: "Build"
+          run: |
+            cd example
+            make all
+        - name: "Run Example"
+          run: "sudo ./ping_example"
+          
+    RunTestsOnLinux:
+      runs-on: "ubuntu-latest"
+      steps:
+        - uses: "actions/checkout@v3"
+        - name: "Add Dependencies"
+          run: "sudo apt update -q && sudo apt install -yq g++"
+        - name: "Build"
+          run: |
+            cd example
+            make all
+        - name: "Run Example"
+          run: "sudo ./ping_example"
+        
