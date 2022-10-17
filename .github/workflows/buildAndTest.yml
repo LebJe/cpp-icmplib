@@ -13,7 +13,7 @@ jobs:
             cd example
             make all
         - name: "Run Example"
-          run: "sudo ./ping_example"
+          run: "sudo ./example/ping_example"
           
     RunTestsOnLinux:
       runs-on: "ubuntu-latest"
@@ -26,5 +26,5 @@ jobs:
             cd example
             make all
         - name: "Run Example"
-          run: "sudo ./ping_example"
+          run: "sudo ./example/ping_example"
         
