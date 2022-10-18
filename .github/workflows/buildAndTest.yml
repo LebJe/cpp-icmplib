@@ -42,7 +42,7 @@ jobs:
         - name: "Build"
           run: |
             cd example
-            g++ -std=c++11 -Wall -I../ -O3 -o ping_example ping.cpp
+            g++ -std=c++11 -Wall -I../ -lws2_32 -O3 -o ping_example ping.cpp
         - name: "Run Example"
           run: |
             sudo ./example/ping_example 127.0.0.1
