@@ -7,7 +7,7 @@ As library is socket-based, on most operating systems, it will require administr
 
 icmplib delivers function Ping declared as:
 ```
-PingResult Ping(const icmplib::AddressIP &target, unsigned timeout = 60, uint16_t sequence = 1, uint8_t ttl = 255);
+PingResult Ping(const icmplib::IPAddress &target, unsigned timeout = 60, uint16_t sequence = 1, uint8_t ttl = 255);
 ```
 Notice:
 * target - Network address (may be created from std::string)
