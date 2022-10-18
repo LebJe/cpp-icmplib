@@ -31,4 +31,20 @@ jobs:
           run: |
             sudo ./example/ping_example 127.0.0.1
             # sudo ./example/ping_example 0:0:0:0:0:0:0:1
+    RunTestsOnWindows:
+      runs-on: "windows-latest"
+      steps:
+        - uses: "actions/checkout@v3"
+        - name: "Set up MinGW"    
+          uses: "egor-tensin/setup-mingw@v2"
+          with:
+            platform: "x64"
+        - name: "Build"
+          run: |
+            cd example
+            g++ -std=c++11 -Wall -I../ -O3 -o ping_example ping.cpp
+        - name: "Run Example"
+          run: |
+            sudo ./example/ping_example 127.0.0.1
+            # sudo ./example/ping_example 0:0:0:0:0:0:0:1
         
