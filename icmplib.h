@@ -411,17 +411,33 @@ namespace icmplib {
 
                 switch (type) {
                 case IPAddress::Type::IPv6:
-                    if (setsockopt(sock, IPPROTO_IPV6, IPV6_UNICAST_HOPS, reinterpret_cast<char *>(&ttl), sizeof(uint8_t)) == ICMPLIB_SOCKET_ERROR) {
+                #if defined(__APPLE__)
+                    if (setsockopt(sock, IPPROTO_IPV6, IPV6_UNICAST_HOPS, &ttl, sizeof(ttl)) == ICMPLIB_SOCKET_ERROR) {
                         ICMPLIB_CLOSESOCKET(sock);
                         throw std::runtime_error("Cannot set socket options!");
                     }
+                #else
+                    if (setsockopt(sock, IPPROTO_IPV6, IPV6_UNICAST_HOPS, reinterpret_cast<char *>(&ttl), sizeof(ttl)) == ICMPLIB_SOCKET_ERROR) {
+                        ICMPLIB_CLOSESOCKET(sock);
+                        throw std::runtime_error("Cannot set socket options!");
+                    }
+                #endif
+                    
                     break;
                 case IPAddress::Type::IPv4:
                 default:
-                    if (setsockopt(sock, IPPROTO_IP, IP_TTL, reinterpret_cast<char *>(&ttl), sizeof(uint8_t)) == ICMPLIB_SOCKET_ERROR) {
+                #if defined(__APPLE__)
+                    if (setsockopt(sock, IPPROTO_IP, IP_TTL, &ttl, sizeof(ttl)) == ICMPLIB_SOCKET_ERROR) {
                         ICMPLIB_CLOSESOCKET(sock);
                         throw std::runtime_error("Cannot set socket options!");
                     }
+                #else
+                    if (setsockopt(sock, IPPROTO_IP, IP_TTL, reinterpret_cast<char *>(&ttl), sizeof(ttl)) == ICMPLIB_SOCKET_ERROR) {
+                        ICMPLIB_CLOSESOCKET(sock);
+                        throw std::runtime_error("Cannot set socket options!");
+                    }
+                #endif
+                    
                 }
 
 #ifdef _WIN32
