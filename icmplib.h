@@ -409,10 +409,14 @@ namespace icmplib {
                     throw std::runtime_error("Cannot initialize socket!");
                 }
 
+                #if defined(__APPLE__)
+                    int ttlInt = ttl;
+                #endif
+                
                 switch (type) {
                 case IPAddress::Type::IPv6:
                 #if defined(__APPLE__)
-                    if (setsockopt(sock, IPPROTO_IPV6, IPV6_UNICAST_HOPS, &ttl, sizeof(ttl)) == ICMPLIB_SOCKET_ERROR) {
+                    if (setsockopt(sock, IPPROTO_IPV6, IPV6_UNICAST_HOPS, &ttlInt, sizeof(ttlInt)) == ICMPLIB_SOCKET_ERROR) {
                         ICMPLIB_CLOSESOCKET(sock);
                         throw std::runtime_error("Cannot set socket options!");
                     }
@@ -427,7 +431,7 @@ namespace icmplib {
                 case IPAddress::Type::IPv4:
                 default:
                 #if defined(__APPLE__)
-                    if (setsockopt(sock, IPPROTO_IP, IP_TTL, &ttl, sizeof(ttl)) == ICMPLIB_SOCKET_ERROR) {
+                    if (setsockopt(sock, IPPROTO_IP, IP_TTL, &ttlInt, sizeof(ttlInt)) == ICMPLIB_SOCKET_ERROR) {
                         ICMPLIB_CLOSESOCKET(sock);
                         throw std::runtime_error("Cannot set socket options!");
                     }
